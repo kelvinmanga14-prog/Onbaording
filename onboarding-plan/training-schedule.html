@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reboarding & Technical Training Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    /* McKinsey Sans Text – add .woff2 files to fonts/ folder if available */
+    @font-face {
+      font-family: 'McKinsey Sans Text';
+      src: local('McKinsey Sans Text'), local('McKinseySansText-Regular'),
+           url('fonts/McKinseySansText-Regular.woff2') format('woff2'),
+           url('fonts/McKinseySansText-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'McKinsey Sans Text';
+      src: local('McKinsey Sans Text Medium'), local('McKinseySansText-Medium'),
+           url('fonts/McKinseySansText-Medium.woff2') format('woff2'),
+           url('fonts/McKinseySansText-Medium.woff') format('woff');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'McKinsey Sans Text';
+      src: local('McKinsey Sans Text SemiBold'), local('McKinseySansText-SemiBold'),
+           url('fonts/McKinseySansText-SemiBold.woff2') format('woff2'),
+           url('fonts/McKinseySansText-SemiBold.woff') format('woff');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'McKinsey Sans Text';
+      src: local('McKinsey Sans Text Bold'), local('McKinseySansText-Bold'),
+           url('fonts/McKinseySansText-Bold.woff2') format('woff2'),
+           url('fonts/McKinseySansText-Bold.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface-hover: #243044;
+      --text: #e8edf4;
+      --text-muted: #8b9cb3;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --border: #2d3a4d;
+      --success: #22c55e;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'McKinsey Sans Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: 220px;
+      padding: 1.5rem 1rem 2rem;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .nav-legend-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem; padding: 0 0.5rem; }
+    .nav-legend a {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-legend a:hover { color: var(--text); background: var(--surface-hover); }
+    .nav-legend a.active { color: var(--accent); background: var(--accent-soft); font-weight: 500; }
+    .nav-legend { display: flex; flex-direction: column; gap: 0.25rem; }
+    .main { flex: 1; margin-left: 220px; min-width: 0; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .progress-bar-wrap {
+      margin: 1rem 0 0;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .progress-bar-wrap p { margin: 0 0 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #22c55e; border-radius: 4px; transition: width 0.3s ease; }
+    .blog-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    h1 {
+      font-family: 'McKinsey Sans Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .blog-intro {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin: 0 0 1rem;
+      line-height: 1.6;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    th, td {
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--text-muted); font-weight: 500; }
+    td { color: var(--text); }
+    .schedule-table-wrap {
+      overflow-x: auto;
+      margin-top: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .schedule-table { min-width: 680px; margin: 0; }
+    .schedule-table th:nth-child(4) { min-width: 10rem; }
+    .schedule-table th:nth-child(5),
+    .schedule-table th:nth-child(6) { width: 4.5rem; text-align: center; }
+    .schedule-table td:nth-child(5),
+    .schedule-table td:nth-child(6) { text-align: center; }
+    .schedule-table input[type="text"].topic-trainer {
+      width: 100%;
+      min-width: 8rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 0.4rem 0.5rem;
+      font-size: 0.9rem;
+    }
+    .schedule-table input[type="text"].topic-trainer::placeholder {
+      color: var(--text-muted);
+    }
+    .schedule-table input[type="checkbox"] {
+      accent-color: var(--accent);
+      cursor: pointer;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+    .schedule-table input[type="date"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 0.35rem 0.5rem;
+      font-size: 0.85rem;
+      max-width: 10rem;
+    }
+    .schedule-table tr.done td { color: var(--text-muted); }
+    .schedule-table tr.done td:nth-child(2) { text-decoration: line-through; }
+    .schedule-table tr.holiday-row td { color: var(--text-muted); font-style: italic; }
+    @media (max-width: 900px) {
+      .sidebar { position: relative; width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }
+      .nav-legend { flex-direction: row; flex-wrap: wrap; gap: 0.35rem; }
+      .nav-legend-title { width: 100%; margin-bottom: 0.35rem; }
+      .nav-legend a { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+      .main { margin-left: 0; }
+    }
+    @media (max-width: 700px) {
+      .container { padding: 1.25rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Navigation">
+    <p class="nav-legend-title">Topics</p>
+    <nav class="nav-legend">
+      <a href="index.html">Onboarding Plan</a>
+      <a href="training-schedule.html" class="active">Training Schedule</a>
+    </nav>
+  </aside>
+  <main class="main">
+  <div class="container">
+    <header>
+      <p class="blog-meta">Onboarding · Schedule</p>
+      <h1>Reboarding & Technical Training Schedule</h1>
+      <p class="blog-intro">Track each session: add the trainer name, mark done, and set the completed date. All data is saved in this browser.</p>
+      <div class="progress-bar-wrap">
+        <p><strong id="progress-text">0 of 0</strong> sessions completed</p>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <a href="index.html" class="back-link" style="display: inline-block; margin-top: 1rem;">← Back to Onboarding Plan</a>
+    </header>
+
+    <div class="schedule-table-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Topic</th>
+            <th>Trainers</th>
+            <th>Trainer name</th>
+            <th>Done</th>
+            <th>Completed date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-topic="m16-1"><td>March 16</td><td>Reboarding Introduction (1 hour)</td><td>Coaches / TL</td><td><input type="text" class="topic-trainer" data-id="m16-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m16-1" aria-label="Mark done"></td><td><input type="date" class="topic-date" data-id="m16-1"></td></tr>
+          <tr data-topic="m16-2"><td></td><td>GHD Tools, Important links / Bomgar (2 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m16-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m16-2"></td><td><input type="date" class="topic-date" data-id="m16-2"></td></tr>
+          <tr data-topic="m16-3"><td></td><td>Hardware Training (1 hour)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m16-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m16-3"></td><td><input type="date" class="topic-date" data-id="m16-3"></td></tr>
+          <tr data-topic="m16-4"><td></td><td>GHD Website (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="m16-4" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m16-4"></td><td><input type="date" class="topic-date" data-id="m16-4"></td></tr>
+          <tr data-topic="m16-5"><td></td><td>ServiceNow Class (3 hours)</td><td>GHDW Testers</td><td><input type="text" class="topic-trainer" data-id="m16-5" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m16-5"></td><td><input type="date" class="topic-date" data-id="m16-5"></td></tr>
+          <tr data-topic="m17-1"><td>March 17</td><td>Coaches Check-in (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="m17-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m17-1"></td><td><input type="date" class="topic-date" data-id="m17-1"></td></tr>
+          <tr data-topic="m17-2"><td></td><td>Avaya Workplace Guide (1.5 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m17-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m17-2"></td><td><input type="date" class="topic-date" data-id="m17-2"></td></tr>
+          <tr data-topic="m17-3"><td></td><td>KCS Methodology (1 hour)</td><td>Ivan/Zaldy</td><td><input type="text" class="topic-trainer" data-id="m17-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m17-3"></td><td><input type="date" class="topic-date" data-id="m17-3"></td></tr>
+          <tr data-topic="m17-4"><td></td><td>KCS KO Creation (1 hour)</td><td>Ivan/Zaldy</td><td><input type="text" class="topic-trainer" data-id="m17-4" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m17-4"></td><td><input type="date" class="topic-date" data-id="m17-4"></td></tr>
+          <tr data-topic="m17-5"><td></td><td>Rydoo Training and MTE (2 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m17-5" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m17-5"></td><td><input type="date" class="topic-date" data-id="m17-5"></td></tr>
+          <tr data-topic="m18-1"><td>March 18</td><td>Technical Training: Windows (4 hours)</td><td>Rona/Marvin</td><td><input type="text" class="topic-trainer" data-id="m18-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m18-1"></td><td><input type="date" class="topic-date" data-id="m18-1"></td></tr>
+          <tr data-topic="m18-2"><td></td><td>Technical Hands-on / Scenarios: Windows (4 hours)</td><td>Rona/Marvin</td><td><input type="text" class="topic-trainer" data-id="m18-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m18-2"></td><td><input type="date" class="topic-date" data-id="m18-2"></td></tr>
+          <tr data-topic="m19-1"><td>March 19</td><td>Technical Training: MacOS (4 hours)</td><td>Ivan/Clark</td><td><input type="text" class="topic-trainer" data-id="m19-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m19-1"></td><td><input type="date" class="topic-date" data-id="m19-1"></td></tr>
+          <tr data-topic="m19-2"><td></td><td>Technical Hands-on / Scenarios: MacOS (4 hours)</td><td>Ivan/Clark</td><td><input type="text" class="topic-trainer" data-id="m19-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m19-2"></td><td><input type="date" class="topic-date" data-id="m19-2"></td></tr>
+          <tr class="holiday-row" data-topic="hol-m20"><td>March 20</td><td>Holiday — Idul Fitir</td><td>—</td><td></td><td></td><td></td></tr>
+          <tr data-topic="m20-4"><td></td><td>TL Catch-up</td><td>TL</td><td><input type="text" class="topic-trainer" data-id="m20-4" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m20-4"></td><td><input type="date" class="topic-date" data-id="m20-4"></td></tr>
+          <tr data-topic="m23-1"><td>March 23</td><td>Technical Training: O365 (4 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m23-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m23-1"></td><td><input type="date" class="topic-date" data-id="m23-1"></td></tr>
+          <tr data-topic="m23-2"><td></td><td>Technical Hands-on / Scenarios: O365 (4 hours)</td><td>Kelvin/Maricar</td><td><input type="text" class="topic-trainer" data-id="m23-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m23-2"></td><td><input type="date" class="topic-date" data-id="m23-2"></td></tr>
+          <tr data-topic="m24-1"><td>March 24</td><td>Technical Training: Connectivity + uniflow (4 hours)</td><td>Rona/Dex</td><td><input type="text" class="topic-trainer" data-id="m24-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m24-1"></td><td><input type="date" class="topic-date" data-id="m24-1"></td></tr>
+          <tr data-topic="m24-2"><td></td><td>Technical Hands-on / Scenarios: Connectivity + uniflow (4 hours)</td><td>Rona/Dex</td><td><input type="text" class="topic-trainer" data-id="m24-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m24-2"></td><td><input type="date" class="topic-date" data-id="m24-2"></td></tr>
+          <tr data-topic="m25-1"><td>March 25</td><td>Technical Training: CloudPC (2 hours)</td><td>Rona/Marvin</td><td><input type="text" class="topic-trainer" data-id="m25-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m25-1"></td><td><input type="date" class="topic-date" data-id="m25-1"></td></tr>
+          <tr data-topic="m25-2"><td></td><td>Unfinished technical training (2 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m25-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m25-2"></td><td><input type="date" class="topic-date" data-id="m25-2"></td></tr>
+          <tr data-topic="m25-3"><td></td><td>Technical Hands-on / Scenarios: CloudPC (4 hours)</td><td>Rona/Marvin</td><td><input type="text" class="topic-trainer" data-id="m25-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m25-3"></td><td><input type="date" class="topic-date" data-id="m25-3"></td></tr>
+          <tr data-topic="m26-1"><td>March 26</td><td>CTE Training</td><td>Kelvin/Ivan</td><td><input type="text" class="topic-trainer" data-id="m26-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m26-1"></td><td><input type="date" class="topic-date" data-id="m26-1"></td></tr>
+          <tr data-topic="m26-2"><td></td><td>Technical Training buffer (7 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m26-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m26-2"></td><td><input type="date" class="topic-date" data-id="m26-2"></td></tr>
+          <tr data-topic="m26-3"><td></td><td>Technical Training: Mobile (2 hours)</td><td>Joi/Kit</td><td><input type="text" class="topic-trainer" data-id="m26-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m26-3"></td><td><input type="date" class="topic-date" data-id="m26-3"></td></tr>
+          <tr data-topic="m20-2"><td></td><td>GHD Software - Intermediate (1 hour)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m20-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m20-2"></td><td><input type="date" class="topic-date" data-id="m20-2"></td></tr>
+          <tr data-topic="m20-3"><td></td><td>Technical Hands-on / Scenarios: Mobile (4 hours)</td><td>Joi/Kit</td><td><input type="text" class="topic-trainer" data-id="m20-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m20-3"></td><td><input type="date" class="topic-date" data-id="m20-3"></td></tr>
+          <tr data-topic="m27-1"><td>March 27</td><td>Operating Process 1, 2 & 3 (7 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m27-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m27-1"></td><td><input type="date" class="topic-date" data-id="m27-1"></td></tr>
+          <tr data-topic="m27-2"><td></td><td>TL Catch-up</td><td>TL</td><td><input type="text" class="topic-trainer" data-id="m27-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m27-2"></td><td><input type="date" class="topic-date" data-id="m27-2"></td></tr>
+          <tr data-topic="m30-1"><td>March 30</td><td>OP Catch-up with coaches (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="m30-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m30-1"></td><td><input type="date" class="topic-date" data-id="m30-1"></td></tr>
+          <tr data-topic="m30-2"><td></td><td>Operating Process 4, 5, 6 (7 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m30-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m30-2"></td><td><input type="date" class="topic-date" data-id="m30-2"></td></tr>
+          <tr data-topic="m31-1"><td>March 31</td><td>Operating Process 7, 8, 9 (7 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="m31-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m31-1"></td><td><input type="date" class="topic-date" data-id="m31-1"></td></tr>
+          <tr data-topic="m31-2"><td></td><td>SOA OP Catch-up (1 hour)</td><td>SOAs</td><td><input type="text" class="topic-trainer" data-id="m31-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="m31-2"></td><td><input type="date" class="topic-date" data-id="m31-2"></td></tr>
+          <tr data-topic="a1-1"><td>April 1</td><td>Operating Process 10 (4 hours)</td><td>Self-study</td><td><input type="text" class="topic-trainer" data-id="a1-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a1-1"></td><td><input type="date" class="topic-date" data-id="a1-1"></td></tr>
+          <tr data-topic="a1-2"><td></td><td>SOA OP Catch-up (1 hour)</td><td>SOAs</td><td><input type="text" class="topic-trainer" data-id="a1-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a1-2"></td><td><input type="date" class="topic-date" data-id="a1-2"></td></tr>
+          <tr data-topic="a1-3"><td></td><td>Chat Support Best Practices (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="a1-3" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a1-3"></td><td><input type="date" class="topic-date" data-id="a1-3"></td></tr>
+          <tr data-topic="a1-4"><td></td><td>Email Support Best Practices (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="a1-4" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a1-4"></td><td><input type="date" class="topic-date" data-id="a1-4"></td></tr>
+          <tr data-topic="a1-5"><td></td><td>Remote Support Best Practices (1 hour)</td><td>Coaches</td><td><input type="text" class="topic-trainer" data-id="a1-5" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a1-5"></td><td><input type="date" class="topic-date" data-id="a1-5"></td></tr>
+          <tr class="holiday-row" data-topic="hol-a2"><td>April 2</td><td>Holiday — Maundy Thursday</td><td>—</td><td></td><td></td><td></td></tr>
+          <tr class="holiday-row" data-topic="hol-a3"><td>April 3</td><td>Holiday — Good Friday</td><td>—</td><td></td><td></td><td></td></tr>
+          <tr data-topic="a6-1"><td>April 6</td><td>TL Catch-up</td><td>TL</td><td><input type="text" class="topic-trainer" data-id="a6-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a6-1"></td><td><input type="date" class="topic-date" data-id="a6-1"></td></tr>
+          <tr data-topic="a6-2"><td></td><td>Shadowing</td><td>Mentor</td><td><input type="text" class="topic-trainer" data-id="a6-2" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a6-2"></td><td><input type="date" class="topic-date" data-id="a6-2"></td></tr>
+          <tr data-topic="a7-1"><td>April 7</td><td>Shadowing</td><td>Mentor</td><td><input type="text" class="topic-trainer" data-id="a7-1" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a7-1"></td><td><input type="date" class="topic-date" data-id="a7-1"></td></tr>
+          <tr class="holiday-row" data-topic="hol-a9"><td>April 9</td><td>Holiday — Araw ng Kagitingan</td><td>—</td><td></td><td></td><td></td></tr>
+          <tr data-topic="a13-17"><td>April 8–10</td><td>Email Support (8 hours per day)</td><td>Mentor</td><td><input type="text" class="topic-trainer" data-id="a13-17" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a13-17"></td><td><input type="date" class="topic-date" data-id="a13-17"></td></tr>
+          <tr data-topic="a20-24"><td>April 13–17</td><td>Chat Support (8 hours per day)</td><td>Mentor</td><td><input type="text" class="topic-trainer" data-id="a20-24" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a20-24"></td><td><input type="date" class="topic-date" data-id="a20-24"></td></tr>
+          <tr data-topic="a27-30"><td>April 20–24</td><td>Phone Support (8 hours per day)</td><td>Mentor</td><td><input type="text" class="topic-trainer" data-id="a27-30" placeholder="Name"></td><td><input type="checkbox" class="topic-done" data-id="a27-30"></td><td><input type="date" class="topic-date" data-id="a27-30"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </main>
+  <script>
+    (function () {
+      var STORAGE_KEY = 'onboarding-training-state';
+      var LEGACY_KEY = 'onboarding-training-done';
+
+      function getState() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          var state = raw ? JSON.parse(raw) : {};
+          var legacy = localStorage.getItem(LEGACY_KEY);
+          if (legacy) {
+            try {
+              var legacyData = JSON.parse(legacy);
+              for (var id in legacyData) {
+                if (!state[id]) state[id] = {};
+                state[id].date = legacyData[id];
+              }
+            } catch (e) {}
+          }
+          return state;
+        } catch (e) { return {}; }
+      }
+      function setState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+      function syncRow(id, done) {
+        var row = document.querySelector('tr[data-topic="' + id + '"]');
+        if (row) row.classList.toggle('done', !!done);
+      }
+      function updateProgress() {
+        var total = document.querySelectorAll('.topic-done').length;
+        var count = 0;
+        document.querySelectorAll('.topic-done').forEach(function (cb) {
+          if (cb.checked) count++;
+        });
+        var progressText = document.getElementById('progress-text');
+        var progressFill = document.getElementById('progress-fill');
+        if (progressText) progressText.textContent = count + ' of ' + total + ' sessions completed';
+        if (progressFill) progressFill.style.width = total ? (100 * count / total) + '%' : '0%';
+      }
+
+      var state = getState();
+
+      document.querySelectorAll('.topic-trainer').forEach(function (input) {
+        var id = input.getAttribute('data-id');
+        if (state[id] && state[id].trainer != null) input.value = state[id].trainer;
+        input.addEventListener('input', function () {
+          if (!state[id]) state[id] = {};
+          state[id].trainer = input.value.trim();
+          setState(state);
+        });
+      });
+
+      document.querySelectorAll('.topic-done').forEach(function (cb) {
+        var id = cb.getAttribute('data-id');
+        if (state[id] && state[id].date) {
+          cb.checked = true;
+          var dateEl = document.querySelector('.topic-date[data-id="' + id + '"]');
+          if (dateEl) dateEl.value = state[id].date;
+          syncRow(id, true);
+        }
+        cb.addEventListener('change', function () {
+          var dateEl = document.querySelector('.topic-date[data-id="' + id + '"]');
+          if (cb.checked) {
+            var d = new Date();
+            if (!state[id]) state[id] = {};
+            state[id].date = d.toISOString().slice(0, 10);
+            if (dateEl) dateEl.value = state[id].date;
+          } else {
+            if (state[id]) state[id].date = '';
+            if (dateEl) dateEl.value = '';
+          }
+          setState(state);
+          syncRow(id, cb.checked);
+        });
+      });
+
+      document.querySelectorAll('.topic-date').forEach(function (input) {
+        var id = input.getAttribute('data-id');
+        if (state[id] && state[id].date) input.value = state[id].date;
+        input.addEventListener('change', function () {
+          if (!state[id]) state[id] = {};
+          state[id].date = input.value;
+          setState(state);
+        });
+      });
+      updateProgress();
+      document.querySelectorAll('.topic-done').forEach(function (cb) {
+        cb.addEventListener('change', updateProgress);
+      });
+      document.querySelectorAll('.topic-date').forEach(function (input) {
+        input.addEventListener('change', updateProgress);
+      });
+    })();
+  </script>
+</body>
+</html>
